@@ -5,6 +5,7 @@ run_name: extrapolation_check
 data:
   kind: shower
   source: calo
+  zenodo_record: "6366271"
   files: [dataset_2_1.hdf5, dataset_2_2.hdf5]
   native_shape: [45, 16, 9]
   planes: 45

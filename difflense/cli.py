@@ -1,6 +1,7 @@
 """python -m difflense <stage> [<stage> ...] -c configs/qg.yaml [--set key=value ...] [--force]
 
 stages (in order; `all` runs every one):
+  download      fetch the raw data (CERNBox for qg, Zenodo for calo); skips complete files
   prepare       raw data -> cache (HR truth, the noisy LR measurement, targets)
   train_sr      flow-matching graph SR model on every truth-checked transition
   generate      SR on whole splits up to the native grid (inputs of the taggers and of eval_sr)
@@ -15,7 +16,7 @@ import os
 
 from .config import load_config, save_config
 
-STAGES = ["prepare", "train_sr", "generate", "eval_sr", "extrapolate", "train_tagger", "report"]
+STAGES = ["download", "prepare", "train_sr", "generate", "eval_sr", "extrapolate", "train_tagger", "report"]
 
 
 def report(cfg):
@@ -92,7 +93,10 @@ def main(argv=None):
     stages = STAGES if "all" in a.stages else [s for s in STAGES if s in a.stages]
     for st in stages:
         print(f"\n===== {st} =====")
-        if st == "prepare":
+        if st == "download":
+            from .data.download import download
+            download(cfg)
+        elif st == "prepare":
             from .data.prepare import prepare
             prepare(cfg, force=a.force)
         elif st == "train_sr":

@@ -7,6 +7,7 @@ run_name: main
 data:
   kind: shower
   source: calo
+  zenodo_record: "6366271"
   files: [dataset_2_1.hdf5, dataset_2_2.hdf5]   # 2_1 -> train + val, 2_2 -> test (CaloChallenge convention)
   native_shape: [45, 16, 9]
   planes: 45

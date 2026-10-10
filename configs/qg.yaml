@@ -6,6 +6,7 @@ run_name: main
 data:
   kind: jet
   source: qg
+  cernbox_token: EYgmOkI9BjwxNqy   # public CERNBox share of the ML4Sci jet images
   planes: [tracks, ecal, hcal]
   hr_shape: [128, 128]
   pad: [[1, 2], [1, 2]]          # 125 -> 128 so the 2x stages divide evenly

@@ -11,3 +11,4 @@ pyarrow>=14.0
 torchdiffeq>=0.2.3   # optional: dopri5 solver (sampling.solver=dopri5)
 pytest>=7.0
 # optional: wandb (set wandb.enabled=true)
+requests>=2.31

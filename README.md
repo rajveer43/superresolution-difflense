@@ -67,15 +67,25 @@ Baselines: the measured LR, and the LR spread uniformly onto the finer grid (no 
 
 ## Usage
 
+### Colab (recommended)
+
+Upload [`notebooks/difflense_colab.ipynb`](notebooks/difflense_colab.ipynb) to Colab, or open it from GitHub. Choose a GPU runtime and add a `GITHUB_TOKEN` Colab secret while the repo is private. Then run all cells: first with `SMOKE = True`, then with `SMOKE = False`.
+- The notebook downloads the data once to Drive and runs every stage.
+- Results go to `MyDrive/GSoC_DiffLense/experiments/<dataset>/<date>_<run-tag>/` (logs, models, metrics, figures, report) plus a zip in `exports/`.
+- Every stage resumes after a disconnect.
+
+### Command line
+
 ```bash
 python -m venv .venv && source .venv/bin/activate
 pip install -r requirements.txt
 
-# data: put the ML4Sci quark/gluon parquet/h5 files in data/raw/qg/,
+python -m difflense download -c configs/qg.yaml     # CERNBox share (3 parquet files, 3.7 GB); calo: Zenodo
+# or put the ML4Sci quark/gluon parquet/h5 files in data/raw/qg/,
 #       CaloChallenge dataset_2_1.hdf5 / dataset_2_2.hdf5 in data/raw/calo/
 #       (or reuse a cache of the older `superres` package: --set data.import_cache=/path/to/cache/qg)
 
-python -m difflense all -c configs/qg.yaml          # prepare → train_sr → generate → eval_sr → extrapolate → train_tagger → report
+python -m difflense all -c configs/qg.yaml          # download → prepare → train_sr → generate → eval_sr → extrapolate → train_tagger → report
 python -m difflense all -c configs/calo.yaml
 python -m difflense train_sr generate eval_sr report -c configs/qg_extrapolation_check.yaml
 
@@ -114,7 +124,7 @@ tests/                 unit tests of the physics invariants
 
 ## Status
 
-Unit tests pass. The synthetic smoke run has been exercised for `prepare`, `train_sr` and `generate`. The remaining stages, and training on the real datasets, are next.
+Unit tests pass. Every stage has run end to end on synthetic jet and shower data (`configs/smoke_*.yaml`). The download stage has been checked against the CERNBox share and the parquet schema. Full training on the real datasets is next.
 
 ## Reference
 

@@ -19,6 +19,7 @@ BASE = {
         "raw": "data/raw/{dataset}",
         "cache": "data/cache/{dataset}",
         "out": "runs/{dataset}/{run_name}",
+        "generated": None,       # SR outputs of the generate stage; default {out}/generated
     },
     "data": {
         # kind: jet (CMS quark/gluon images) | shower (CaloChallenge DS2) ; set by the dataset YAML
@@ -154,6 +155,8 @@ def load_config(path=None, overrides=()):
     if "dataset" not in cfg:
         raise ValueError("config needs a top-level 'dataset' name")
     for k, v in cfg["paths"].items():
+        if v is None:
+            continue
         cfg["paths"][k] = v.format(dataset=cfg["dataset"], run_name=cfg["run_name"])
     return cfg
 

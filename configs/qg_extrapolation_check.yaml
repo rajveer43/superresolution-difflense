@@ -8,6 +8,7 @@ run_name: extrapolation_check
 data:
   kind: jet
   source: qg
+  cernbox_token: EYgmOkI9BjwxNqy
   planes: [tracks, ecal, hcal]
   hr_shape: [128, 128]
   pad: [[1, 2], [1, 2]]
