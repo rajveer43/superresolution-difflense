@@ -1,0 +1,28 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.ipynb_checkpoints/
+
+# Environments
+.venv/
+venv/
+env/
+
+# Data, caches and run outputs (large; regenerate with `python -m difflense prepare ...`)
+data/
+runs/
+wandb/
+*.npy
+*.npz
+*.h5
+*.hdf5
+*.parquet
+*.pt
+*.pth
+
+# OS / editors
+.DS_Store
+.idea/
+.vscode/

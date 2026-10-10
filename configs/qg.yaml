@@ -1,0 +1,24 @@
+# CMS Open Data quark/gluon jet images (ML4Sci), 3 x 125 x 125 (tracks, ECAL, HCAL), padded to 128.
+# Measured LR = 32 x 32 (HR sum-pooled 4 x 4, as the paper's multi-particle set) + noise + topo-clustering.
+# Ladder 32 -> 64 -> 128 (truth-checked) -> 256 -> 512 -> 1024 -> 2048 (no truth: consistency checks).
+dataset: qg
+run_name: main
+data:
+  kind: jet
+  source: qg
+  planes: [tracks, ecal, hcal]
+  hr_shape: [128, 128]
+  pad: [[1, 2], [1, 2]]          # 125 -> 128 so the 2x stages divide evenly
+  pixel_size: 0.0174             # ECAL crystal in (eta, phi)
+  center_index: 63               # jet axis in the padded grid
+  plane_offsets: [-2, -1, 1, 2]  # a node also attends to the same cell in the other two channels
+  hit_threshold: 1.0e-3          # zero suppression per native cell (data units); scales with the cell area
+  max_events: 60000
+  split: [0.8, 0.1, 0.1]
+ladder:
+  lr_factor: [4, 4]
+  stages: [[2, 2], [2, 2], [2, 2], [2, 2], [2, 2], [2, 2]]
+noise:
+  rel_sigma: [0.0, 0.1, 0.1]     # tracks carry no calorimeter noise
+eval:
+  zoom_plane: 1                  # ECAL in the 2048 x 2048 zoom panels

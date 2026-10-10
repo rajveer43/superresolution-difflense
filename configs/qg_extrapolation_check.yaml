@@ -1,0 +1,28 @@
+# How well does the self-similar split extrapolate to a scale it was never trained on?
+# Same data and cache as qg.yaml, but the clean 64 -> 128 transition is held out of training. Stage 2
+# (64 -> 128) is then an extrapolation, yet it still has truth, so eval_sr scores it. Compare its 128x128
+# metrics with run "main": the gap estimates the error of the 256 ... 2048 stages, which have no truth.
+#   python -m difflense train_sr generate eval_sr report -c configs/qg_extrapolation_check.yaml
+dataset: qg
+run_name: extrapolation_check
+data:
+  kind: jet
+  source: qg
+  planes: [tracks, ecal, hcal]
+  hr_shape: [128, 128]
+  pad: [[1, 2], [1, 2]]
+  pixel_size: 0.0174
+  center_index: 63
+  plane_offsets: [-2, -1, 1, 2]
+  hit_threshold: 1.0e-3
+  max_events: 60000
+ladder:
+  lr_factor: [4, 4]
+  stages: [[2, 2], [2, 2]]
+  train_transitions: [[[16, 16], [32, 32]], [[32, 32], [64, 64]]]
+noise:
+  rel_sigma: [0.0, 0.1, 0.1]
+sampling:
+  splits: [val, test]
+eval:
+  zoom_plane: 1
